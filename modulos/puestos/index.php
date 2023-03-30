@@ -35,7 +35,11 @@ try {
 }
 
 ?>
-<h4> Puestos de empleados </h4>
+<h2 class="text-center">
+    <b> Puestos de empleados </b>
+</h2>
+</br>
+
 <div class="card">
     <div class="card-header">
         <a name="" id="" class="btn btn-primary" href="crear.php" role="button">Agregar registro</a>

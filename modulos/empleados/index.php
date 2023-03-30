@@ -8,7 +8,7 @@ if (isset($_GET['txtID'])) {
 
     //todo: Primero
     /* Getting the foto and cv from the tbl_empleados table where the id_empleado is equal to the id. */
-    $sentencia = $conexion->prepare("SELECT foto, cv FROM `tbl_empleados` WHERE `id_empleado` = :id");
+    $sentencia = $conexion->prepare("SELECT foto_perfil, cv_empleado FROM `tbl_empleados` WHERE `id_empleado` = :id");
     $sentencia->bindParam(':id', $txtID);
     $sentencia->execute();
     $registro_recuperado = $sentencia->fetch(PDO::FETCH_LAZY);
@@ -17,16 +17,16 @@ if (isset($_GET['txtID'])) {
 
     //todo: Segundo
     /* Checking if the file exists and if it does, it deletes it. */
-    if (isset($registro_recuperado["foto"]) && $registro_recuperado["foto"] != "") {
-        if (file_exists("./") . $registro_recuperado["foto"]) {
-            unlink("./" . $registro_recuperado["foto"]);
+    if (isset($registro_recuperado["foto_perfil"]) && $registro_recuperado["foto_perfil"] != "") {
+        if (file_exists("./profiles/") . $registro_recuperado["foto_perfil"]) {
+            unlink("./profiles/" . $registro_recuperado["foto_perfil"]);
         }
     }
 
     /* Checking if the file exists and if it does, it deletes it. */
-    if (isset($registro_recuperado["cv"]) && $registro_recuperado["cv"] != "") {
-        if (file_exists("./") . $registro_recuperado["cv"]) {
-            unlink("./" . $registro_recuperado["cv"]);
+    if (isset($registro_recuperado["cv_empleado"]) && $registro_recuperado["cv_empleado"] != "") {
+        if (file_exists("./documents/") . $registro_recuperado["cv_empleado"]) {
+            unlink("./documents/" . $registro_recuperado["cv_empleado"]);
         }
     }
 
@@ -51,6 +51,7 @@ try {
         $sentencia->execute();
         //CARGO EN UNA VARIABLE LISTA LOS DATOS
         $lista_table_empleados = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+        function_alert_info($lista_table_empleados);
     }
 } catch (\Throwable $th) {
     echo $th->getMessage();
@@ -60,13 +61,17 @@ try {
 //print_r($lista_table_puesto);
 
 ?>
-<h4> Empleados </h4>
+<h2 class="text-center">
+    <b> Empleados </b>
+</h2>
+</br>
+
 <div class="card">
     <div class="card-header">
-        <a name="" id="" class="btn btn-primary" href="crear.php" role="button">Agregar registro</a>
+        <a name="" id="" class="btn btn-success" href="crear.php" role="button">Agregar registro</a>
     </div>
     <div class="card-body">
-        <div class="table-responsive-sm">
+        <div class="table-responsive">
             <table class="table">
                 <thead>
                     <tr>
@@ -84,32 +89,32 @@ try {
                     <?php foreach ($lista_table_empleados as $registro) { ?>
                         <tr class="">
                             <td scope="row">
-                                <?php echo $registro['id_empleado'] ?>
+                                <?= $registro['id_empleado']; ?>
                             </td>
                             <td scope="row">
-                                <?php echo $registro['primer_nombre'] ?>
-                                <?php echo $registro['segundo_nombre'] ?>
-                                <?php echo $registro['primer_apellido'] ?>
-                                <?php echo $registro['segundo_apellido'] ?>
+                                <?= $registro['primer_nombre']; ?>
+                                <?= $registro['segundo_nombre']; ?>
+                                <?= $registro['apellido_paterno']; ?>
+                                <?= $registro['apellido_materno']; ?>
+                                <?= $registro["apellido_casada"] == null ? "" : $registro["apellido_casada"] ?>
                             </td>
                             <td>
-                                <img width="50" src="<?php echo $registro['foto'] ?>" class="img-fluid rounded" alt="" />
+                                <img width="50" src="<?= $registro['foto_perfil'] ?>" class="img-fluid rounded" alt="" />
                             </td>
                             <td scope="row">
-                                <?php echo $registro['cv'] ?>
+                                <?= $registro['cv_empleado'] ?>
                             </td>
                             <td scope="row">
-                                <?php echo $registro['puesto'] ?>
+                                <?= $registro['puesto'] ?>
                             </td>
                             <td scope="row">
-                                <?php echo $registro['fecha_ingreso'] ?>
+                                <?= $registro['fecha_ingreso'] ?>
                             </td>
                             <td>
-                                <a name="" id="" class="btn btn-primary" href="#" role="button">Carta</a>|
-                                <a class="btn btn-warning" href="editar.php?txtID=<?php echo $registro['id_empleado']; ?>"
+                                <a class="btn btn-sm btn-warning" href="editar.php?txtID=<?= $registro['id_empleado']; ?>"
                                     role="button">Editar</a>
 
-                                <a class="btn btn-danger" href="index.php?txtID=<?php echo $registro['id_empleado']; ?>"
+                                <a class="btn btn-sm btn-danger" href="index.php?txtID=<?= $registro['id_empleado']; ?>"
                                     onclick="return confirm('¿Estás seguro de que deseas eliminar al empleado?')"
                                     role="button">Eliminar</a>
                             </td>

@@ -32,7 +32,11 @@ try {
 //print_r($lista_table_puesto);
 
 ?>
-<h4> Usuarios </h4>
+<h2 class="text-center">
+    <b> Usuarios </b>
+</h2>
+</br>
+
 <div class="card">
     <div class="card-header">
         <a name="" id="" class="btn btn-primary" href="crear.php" role="button">Agregar usuario</a>
