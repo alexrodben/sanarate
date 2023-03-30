@@ -1,8 +1,5 @@
+<?php include "./../../template/header.php"; ?>
 <?php
-
-//CONEXION
-include "./../../conexion.php";
-
 //validamos, y enviamos parametros por el metodo get, para borrar
 if (isset($_GET['txtID'])) {
 
@@ -43,27 +40,30 @@ if (isset($_GET['txtID'])) {
     header("Location: index.php");
 }
 
-// Consulta para obtener los datos de la tabla empleados y el puesto
-// para ello trabajamos con la subconsulta
-$sqlQuery = "SELECT *, (SELECT nombre_puesto FROM tbl_puestos_empleados WHERE
-tbl_puestos_empleados.id_puesto_empleado=tbl_empleados.id_puesto_empleado limit 1) as puesto FROM `tbl_empleados`";
-$sentencia = $conexion->prepare($sqlQuery);
-//EJECUTO EL QUERY
-$sentencia->execute();
-//CARGO EN UNA VARIABLE LISTA LOS DATOS
-$lista_table_empleados = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+$lista_table_empleados = [];
+try {
+    if (isset($conexion)) {
+        // Consulta para obtener los datos de la tabla empleados y el puesto
+        // para ello trabajamos con la subconsulta
+        $sqlQuery = "SELECT *, (SELECT nombre_puesto FROM tbl_puestos_empleados WHERE tbl_puestos_empleados.id_puesto_empleado=tbl_empleados.id_puesto_empleado limit 1) as puesto FROM `tbl_empleados`";
+        $sentencia = $conexion->prepare($sqlQuery);
+        //EJECUTO EL QUERY
+        $sentencia->execute();
+        //CARGO EN UNA VARIABLE LISTA LOS DATOS
+        $lista_table_empleados = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+    }
+} catch (\Throwable $th) {
+    echo $th->getMessage();
+}
 
 //imprimo la lista
 //print_r($lista_table_puesto);
 
 ?>
-
-<?php include "./../../template/header.php"; ?>
-</br>
 <h4> Empleados </h4>
 <div class="card">
     <div class="card-header">
-        <?php include "./crear.php"; ?>
+        <a name="" id="" class="btn btn-primary" href="crear.php" role="button">Agregar registro</a>
     </div>
     <div class="card-body">
         <div class="table-responsive-sm">
@@ -124,7 +124,5 @@ $lista_table_empleados = $sentencia->fetchAll(PDO::FETCH_ASSOC);
         Módulo de Empleados
     </div>
 </div>
-
-
 
 <?php include "../../template/footer.php"; ?>

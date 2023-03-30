@@ -1,41 +1,38 @@
 <!-- REQUIERO LA CONEXION A LA BASE DE DATOS -->
+<?php include "./../../template/header.php"; ?>
 <?php
-
-//CONEXION
-include "../../bd.php";
 
 //validamos, y enviamos parametros por el metodo get, para borrar
 if (isset($_GET['txtID'])) {
 
-	//if ternario
-	$txtID = (isset($_GET['txtID']) ? $_GET['txtID'] : "");
+    //if ternario
+    $txtID = (isset($_GET['txtID']) ? $_GET['txtID'] : "");
 
-	//$id=$_GET['txtID'];
-	$sentencia = $conexion->prepare("DELETE FROM `tbl_usuarios` WHERE `id_usuario` = :id");
-	$sentencia->bindParam(':id', $txtID);
-	$sentencia->execute();
-	header("Location: index.php");
+    //$id=$_GET['txtID'];
+    $sentencia = $conexion->prepare("DELETE FROM `tbl_usuarios` WHERE `id_usuario` = :id");
+    $sentencia->bindParam(':id', $txtID);
+    $sentencia->execute();
+    header("Location: index.php");
 }
 
-//CONSULTA SQL A LA TABLA PUESTOS
-$sentencia = $conexion->prepare("SELECT * FROM `tbl_usuarios`");
-
-//EJECUTO EL QUERY
-$sentencia->execute();
-
-//CARGO EN UNA VARIABLE LISTA LOS DATOS
-$lista_table_usuarios = $sentencia->fetchAll(PDO::FETCH_ASSOC);
-
+$lista_table_usuarios = [];
+try {
+    if (isset($conexion)) {
+        //CONSULTA SQL A LA TABLA PUESTOS
+        $sentencia = $conexion->prepare("SELECT * FROM `tbl_usuarios`");
+        //EJECUTO EL QUERY
+        $sentencia->execute();
+        //CARGO EN UNA VARIABLE LISTA LOS DATOS
+        $lista_table_usuarios = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+    }
+} catch (\Throwable $th) {
+    echo $th->getMessage();
+}
 //imprimo la lista
 //print_r($lista_table_puesto);
 
 ?>
-
-<?php include "../../templates/header.php";?>
-
-
-</br>
-
+<h4> Usuarios </h4>
 <div class="card">
     <div class="card-header">
         <a name="" id="" class="btn btn-primary" href="crear.php" role="button">Agregar usuario</a>
@@ -54,21 +51,33 @@ $lista_table_usuarios = $sentencia->fetchAll(PDO::FETCH_ASSOC);
                 </thead>
                 <tbody>
                     <!-- Ciclo for each -->
-                    <?php foreach ($lista_table_usuarios as $registro) {?>
+                    <?php foreach ($lista_table_usuarios as $registro) { ?>
                         <tr class="">
-                            <td scope="row"><?php echo $registro['id_usuario'] ?></td>
-                            <td><?php echo $registro['usuario'] ?></td>
-                            <td><?php echo $registro['password'] ?></td>
-                            <td><?php echo $registro['correo'] ?></td>
+                            <td scope="row">
+                                <?php echo $registro['id_usuario'] ?>
+                            </td>
+                            <td>
+                                <?php echo $registro['usuario'] ?>
+                            </td>
+                            <td>
+                                <?php echo $registro['password'] ?>
+                            </td>
+                            <td>
+                                <?php echo $registro['correo'] ?>
+                            </td>
                             <td>
 
-                                <a name="" id="" class="btn btn-info" href="editar.php?txtID=<?php echo $registro['id_usuario'] ?>" role="button">Editar</a>
+                                <a name="" id="" class="btn btn-info"
+                                    href="editar.php?txtID=<?php echo $registro['id_usuario'] ?>" role="button">Editar</a>
 
-                                <a name="" id="" class="btn btn-danger" href="index.php?txtID=<?php echo $registro['id_usuario'] ?>" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?')" role="button">Borrar</a>
+                                <a name="" id="" class="btn btn-danger"
+                                    href="index.php?txtID=<?php echo $registro['id_usuario'] ?>"
+                                    onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?')"
+                                    role="button">Borrar</a>
 
                             </td>
                         </tr>
-                    <?php }?>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
@@ -80,4 +89,4 @@ $lista_table_usuarios = $sentencia->fetchAll(PDO::FETCH_ASSOC);
 
 
 
-<?php include "../../templates/footer.php";?>
+<?php include "../../template/footer.php"; ?>

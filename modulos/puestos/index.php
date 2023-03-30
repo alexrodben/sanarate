@@ -1,42 +1,41 @@
 <!-- REQUIERO LA CONEXION A LA BASE DE DATOS -->
+<?php include "./../../template/header.php"; ?>
 <?php
-
-//CONEXION
-include "../../bd.php";
-
 //validamos, y enviamos parametros por el metodo get, para borrar
 if (isset($_GET['txtID'])) {
 
-	//if ternario
-	$txtID = (isset($_GET['txtID']) ? $_GET['txtID'] : "");
+    //if ternario
+    $txtID = (isset($_GET['txtID']) ? $_GET['txtID'] : "");
 
-	//$id=$_GET['txtID'];
-	$sentencia = $conexion->prepare("DELETE FROM `tbl_puestos` WHERE `id_puestos` = :id");
-	$sentencia->bindParam(':id', $txtID);
-	$sentencia->execute();
-	header("Location: index.php");
+    //$id=$_GET['txtID'];
+    $sentencia = $conexion->prepare("DELETE FROM `tbl_puestos` WHERE `id_puestos` = :id");
+    $sentencia->bindParam(':id', $txtID);
+    $sentencia->execute();
+    header("Location: index.php");
 
 }
 
-//CONSULTA SQL A LA TABLA PUESTOS
-$sentencia = $conexion->prepare("SELECT * FROM `tbl_puestos`");
+$lista_table_puesto = [];
+try {
+    if (isset($conexion)) {
 
-//EJECUTO EL QUERY
-$sentencia->execute();
+        //CONSULTA SQL A LA TABLA PUESTOS
+        $sentencia = $conexion->prepare("SELECT * FROM `tbl_puestos`");
 
-//CARGO EN UNA VARIABLE LISTA LOS DATOS
-$lista_table_puesto = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+        //EJECUTO EL QUERY
+        $sentencia->execute();
 
-//imprimo la lista
+        //CARGO EN UNA VARIABLE LISTA LOS DATOS
+        $lista_table_puesto = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+    }
+    //imprimo la lista
 //print_r($lista_table_puesto);
+} catch (\Throwable $th) {
+    echo $th->getMessage();
+}
 
 ?>
-<?php include "../../templates/header.php";?>
-
-
-
-</br>
-
+<h4> Puestos de empleados </h4>
 <div class="card">
     <div class="card-header">
         <a name="" id="" class="btn btn-primary" href="crear.php" role="button">Agregar registro</a>
@@ -53,17 +52,24 @@ $lista_table_puesto = $sentencia->fetchAll(PDO::FETCH_ASSOC);
                 </thead>
                 <tbody>
                     <!-- Ciclo for each -->
-                    <?php foreach ($lista_table_puesto as $registro) {?>
+                    <?php foreach ($lista_table_puesto as $registro) { ?>
                         <tr class="">
-                            <td scope="row"><?php echo $registro['id_puestos'] ?></td>
-                            <td><?php echo $registro['nombre_puesto'] ?></td>
+                            <td scope="row">
+                                <?php echo $registro['id_puestos'] ?>
+                            </td>
                             <td>
-                                <a class="btn btn-warning" href="editar.php?txtID=<?php echo $registro['id_puestos']; ?>" role="button">Editar</a>
+                                <?php echo $registro['nombre_puesto'] ?>
+                            </td>
+                            <td>
+                                <a class="btn btn-warning" href="editar.php?txtID=<?php echo $registro['id_puestos']; ?>"
+                                    role="button">Editar</a>
 
-                                <a class="btn btn-danger" href="index.php?txtID=<?php echo $registro['id_puestos']; ?>" onclick="return confirm('¿Estás seguro de que deseas eliminar este puesto?')" role="button">Eliminar</a>
+                                <a class="btn btn-danger" href="index.php?txtID=<?php echo $registro['id_puestos']; ?>"
+                                    onclick="return confirm('¿Estás seguro de que deseas eliminar este puesto?')"
+                                    role="button">Eliminar</a>
                             </td>
                         </tr>
-                    <?php }?>
+                    <?php } ?>
 
                 </tbody>
             </table>
@@ -74,7 +80,4 @@ $lista_table_puesto = $sentencia->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
-
-
-
-<?php include "../../templates/footer.php";?>
+<?php include "../../template/footer.php"; ?>

@@ -61,102 +61,87 @@ if ($_POST) {
   header("Location: index.php");
 }
 
-//CONSULTA SQL A LA TABLA PUESTOS
-$sentencia = $conexion->prepare("SELECT * FROM `tbl_puestos_empleados`");
-//EJECUTO EL QUERY
-$sentencia->execute();
-//CARGO EN UNA VARIABLE LISTA LOS DATOS
-$lista_table_puesto = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+$lista_table_puesto = [];
+try {
+  if (isset($conexion)) {
+    //CONSULTA SQL A LA TABLA PUESTOS
+    $sentencia = $conexion->prepare("SELECT * FROM `tbl_puestos_empleados`");
+    //EJECUTO EL QUERY
+    $sentencia->execute();
+    //CARGO EN UNA VARIABLE LISTA LOS DATOS
+    $lista_table_puesto = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+  }
+} catch (\Throwable $th) {
+  echo $th->getMessage();
+}
 
 ?>
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Agregar Registro
-</button>
+<?php include "./../../template/header.php"; ?>
+<br/>
+<div class="card">
+  <div class="card-header">
+    Datos del Empleado
+  </div>
+  <div class="card-body">
+    <div class="row">
 
-<!-- Modal -->
-<div class="modal fade modal-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar puesto</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+      <div class="col-6 mb-3">
+        <label for="primerNombre" class="form-label">Primer nombre</label>
+        <input type="text" class="form-control" name="primerNombre" id="primerNombre" aria-describedby="helpId"
+          placeholder="Primer nombre">
       </div>
-      <form action="" method="post" enctype="multipart/form-data">
-        <div class="modal-body">
-          <div class="card">
-            <div class="card-header">
-              Datos del Empleado
-            </div>
-            <div class="card-body">
-              <div class="row">
 
+      <div class="col-6 mb-3">
+        <label for="segundoNombre" class="form-label">Segundo nombre</label>
+        <input type="text" class="form-control" name="segundoNombre" id="segundoNombre" aria-describedby="helpId"
+          placeholder="Segundo nombre">
+      </div>
 
-                <div class="col-6 mb-3">
-                  <label for="primerNombre" class="form-label">Primer nombre</label>
-                  <input type="text" class="form-control" name="primerNombre" id="primerNombre"
-                    aria-describedby="helpId" placeholder="Primer nombre">
-                </div>
+      <div class="col-6 mb-3">
+        <label for="primerApellido" class="form-label">Primer apellido</label>
+        <input type="text" class="form-control" name="primerApellido" id="primerApellido" aria-describedby="helpId"
+          placeholder="Primer apellido">
+      </div>
 
-                <div class="col-6 mb-3">
-                  <label for="segundoNombre" class="form-label">Segundo nombre</label>
-                  <input type="text" class="form-control" name="segundoNombre" id="segundoNombre"
-                    aria-describedby="helpId" placeholder="Segundo nombre">
-                </div>
+      <div class="col-6 mb-3">
+        <label for="segundoApellido" class="form-label">Segundo apellido</label>
+        <input type="text" class="form-control" name="segundoApellido" id="segundoApellido" aria-describedby="helpId"
+          placeholder="Segundo apellio">
+      </div>
 
-                <div class="col-6 mb-3">
-                  <label for="primerApellido" class="form-label">Primer apellido</label>
-                  <input type="text" class="form-control" name="primerApellido" id="primerApellido"
-                    aria-describedby="helpId" placeholder="Primer apellido">
-                </div>
+      <div class="col-6 mb-3">
+        <label for="" class="form-label">Foto:</label>
+        <input type="file" class="form-control" name="foto" id="foto" aria-describedby="helpId" placeholder="Foto">
+      </div>
 
-                <div class="col-6 mb-3">
-                  <label for="segundoApellido" class="form-label">Segundo apellido</label>
-                  <input type="text" class="form-control" name="segundoApellido" id="segundoApellido"
-                    aria-describedby="helpId" placeholder="Segundo apellio">
-                </div>
+      <div class="col-6 mb-3">
+        <label for="cv" class="form-label">CV(pdf):</label>
+        <input type="file" class="form-control" name="cv" id="cv" aria-describedby="helpId" placeholder="CV">
+      </div>
 
-                <div class="col-6 mb-3">
-                  <label for="" class="form-label">Foto:</label>
-                  <input type="file" class="form-control" name="foto" id="foto" aria-describedby="helpId"
-                    placeholder="Foto">
-                </div>
+      <div class="col-6 mb-3">
+        <label for="idpuesto" class="form-label">Puesto:</label>
+        <select class="form-select form-select-sm" name="idpuesto" id="idpuesto">
+          <!-- Ciclo for each para la tabla puestos -->
+          <?php foreach ($lista_table_puesto as $registro) { ?>
+            <option value="<?php echo $registro['id_puesto_empleado'] ?>"><?php echo $registro['nombre_puesto'] ?>
+            </option>
+          <?php } ?>
+        </select>
 
-                <div class="col-6 mb-3">
-                  <label for="cv" class="form-label">CV(pdf):</label>
-                  <input type="file" class="form-control" name="cv" id="cv" aria-describedby="helpId" placeholder="CV">
-                </div>
+      </div>
 
-                <div class="col-6 mb-3">
-                  <label for="idpuesto" class="form-label">Puesto:</label>
-                  <select class="form-select form-select-sm" name="idpuesto" id="idpuesto">
-                    <!-- Ciclo for each para la tabla puestos -->
-                    <?php foreach ($lista_table_puesto as $registro) { ?>
-                      <option value="<?php echo $registro['id_puesto_empleado'] ?>"><?php echo $registro['nombre_puesto'] ?>
-                      </option>
-                    <?php } ?>
-                  </select>
+      <div class="col-6 mb-3">
+        <label for="fehcaIngreso" class="form-label">Fecha de ingreso:</label>
+        <input type="date" class="form-control" name="fehcaIngreso" id="fehcaIngreso" aria-describedby="emailHelpId"
+          placeholder="Fecha de ingreso a la empresa">
+      </div>
 
-                </div>
-
-                <div class="col-6 mb-3">
-                  <label for="fehcaIngreso" class="form-label">Fecha de ingreso:</label>
-                  <input type="date" class="form-control" name="fehcaIngreso" id="fehcaIngreso"
-                    aria-describedby="emailHelpId" placeholder="Fecha de ingreso a la empresa">
-                </div>
-
-              </div>
-
-
-
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-success">Agregar registro</button>
-          <a name="" id="" class="btn btn-primary" href="index.php" role="button">Cancelar</a>
-        </div>
-      </form>
     </div>
+    <button type="submit" class="btn btn-success">Agregar registro</button>
+    <a name="" id="" class="btn btn-primary" href="index.php" role="button">Cancelar</a>
   </div>
 </div>
+
+<?php include "./../../template/footer.php"; ?>

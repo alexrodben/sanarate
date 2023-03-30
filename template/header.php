@@ -1,8 +1,32 @@
 <?php
-$url_base = "http://localhost/sanarate/";
-?>
+$url_host = "http://$_SERVER[HTTP_HOST]";
+$url_folder = "sanarate/";
+$url_base = $url_host . "/" . $url_folder;
+$url_active = basename("http://$_SERVER[REQUEST_URI]");
+
+$url_list = [
+    array(
+        "id" => 1,
+        "active" => "empleados",
+        "display" => "Empleados"
+    ),
+    array(
+        "id" => 1,
+        "active" => "puestos",
+        "display" => "Puesto de empleados"
+    ),
+    array(
+        "id" => 1,
+        "active" => "usuarios",
+        "display" => "Usuarios"
+    ),
+]
+
+
+    ?>
 <!doctype html>
-<html lang="en">
+
+<html lang="es">
 
 <head>
     <title>Title</title>
@@ -11,71 +35,42 @@ $url_base = "http://localhost/sanarate/";
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS v5.2.1 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
 
     <!-- Estilos css para hacer responsiva las paginas -->
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+    <link rel="stylesheet" href="<?php echo $url_base; ?>css/theme.css">
+    <link rel="stylesheet" href="<?php echo $url_base; ?>css/footer.css">
 
-        th,
-        td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-
-        /* Estilos para pantallas pequeñas */
-        @media screen and (max-width: 600px) {
-            table {
-                width: 100%;
-            }
-
-            thead {
-                display: none;
-            }
-
-            tr:nth-child(even) {
-                background-color: #f2f2f2;
-            }
-
-            td:before {
-                content: attr(data-th);
-                font-weight: bold;
-                display: inline-block;
-                width: 100px;
-            }
-        }
-    </style>
 </head>
 
 <body>
+    <?php
+    //CONEXION 
+    include_once("./../../conexion.php");
+    ?>
     <header>
         <!-- place navbar here -->
     </header>
-    <nav class="navbar navbar-expand navbar-light bg-light">
+    <nav class="navbar navbar-expand bg-primary" data-bs-theme="dark">
         <ul class="nav navbar-nav">
             <li class="nav-item">
-                <a class="nav-link active" href="<?php echo $url_base; ?>" aria-current="page">Sistema <span class="visually-hidden">(current)</span></a>
+                <a class="nav-link active" href="<?php echo $url_base; ?>" aria-current="page">Sistema <span
+                        class="visually-hidden">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<?php echo $url_base; ?>modulos/empleados/">Empleados</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<?php echo $url_base; ?>modulos/puestos/">Puesto de Empleados</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<?php echo $url_base; ?>modulos/usuarios/">Usuarios</a>
-            </li>
+            <?php foreach ($url_list as $registro) { ?>
+                <li class="nav-item">
+                    <a class="nav-link <?= $url_active == $registro['active'] ? "active" : ""; ?> "
+                        href="<?= $url_base; ?>modulos/<?= $registro['active']; ?>/">
+                        <?= $registro['display']; ?>
+                    </a>
+                </li>
+
+            <?php } ?>
             <li class="nav-item">
                 <a class="nav-link" href="<?php echo $url_base; ?>cerrar.php">Cerrar sesión</a>
             </li>
         </ul>
     </nav>
     <main class="container">
+        </br>
