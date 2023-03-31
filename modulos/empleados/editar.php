@@ -1,8 +1,6 @@
 <?php include "./../../template/header.php"; ?>
 <?php include "./../../etc/conexion.php"; ?>
 <?php
-
-
 if (isset($_GET['txtID'])) {
     $txtID = (isset($_GET['txtID']) ? $_GET['txtID'] : "");
 
@@ -293,6 +291,7 @@ if ($_POST) {
                     <label for="id_parentesco" class="form-label">Parentesco:</label>
                     <select class="form-select form-select-sm" value="<?= $id_parentesco; ?>" name="id_parentesco"
                         id="id_parentesco" required>
+                        <option value="" disabled>Seleccione una opción</option>
                         <!-- Ciclo for each para la tabla puestos -->
                         <?php foreach ($lista_table_parentesco as $registro) { ?>
                             <?php $select = $registro['id_parentesco'] == $id_parentesco ? "selected=selected" : ""; ?>
@@ -309,6 +308,7 @@ if ($_POST) {
                     <label for="id_tipo_sangre" class="form-label">Tipo de sangre:</label>
                     <select class="form-select form-select-sm" value="<?= $id_tipo_sangre; ?>" name="id_tipo_sangre"
                         id="id_tipo_sangre" required>
+                        <option value="" disabled>Seleccione una opción</option>
                         <!-- Ciclo for each para la tabla puestos -->
                         <?php foreach ($lista_table_sangre as $registro) { ?>
                             <?php $select = $registro['id_tipo_sangre'] == $id_tipo_sangre ? "selected=selected" : ""; ?>
@@ -322,6 +322,7 @@ if ($_POST) {
                     <label for="id_estado_empleado" class="form-label">Estado:</label>
                     <select class="form-select form-select-sm" value="<?= $id_estado_empleado; ?>"
                         name="id_estado_empleado" id="id_estado_empleado" required>
+                        <option value="" disabled>Seleccione una opción</option>
                         <!-- Ciclo for each para la tabla puestos -->
                         <?php foreach ($lista_table_estado as $registro) { ?>
                             <?php $select = $registro['id_estado_empleado'] == $id_estado_empleado ? "selected=selected" : ""; ?>
@@ -338,6 +339,7 @@ if ($_POST) {
                     <label for="id_puesto_empleado" class="form-label">Puesto:</label>
                     <select class="form-select form-select-sm" value="<?= $id_puesto_empleado; ?>"
                         name="id_puesto_empleado" id="id_puesto_empleado" required>
+                        <option value="" disabled>Seleccione una opción</option>
                         <!-- Ciclo for each para la tabla puestos -->
                         <?php foreach ($lista_table_puesto as $registro) { ?>
                             <?php $select = $registro['id_puesto_empleado'] == $id_puesto_empleado ? "selected=selected" : ""; ?>

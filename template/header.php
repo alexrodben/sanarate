@@ -48,8 +48,8 @@ $url_list = [
     <header>
         <!-- place navbar here -->
     </header>
-    <nav class="navbar navbar-expand bg-primary" data-bs-theme="dark">
-        <ul class="nav navbar-nav">
+    <nav class="navbar navbar-expand bg-primary fixed-top" data-bs-theme="dark">
+        <ul class="nav navbar-nav ">
             <?php foreach ($url_list as $registro) { ?>
                 <?php $url_active = $str_replace == $registro['url'] ? "active" : ""; ?>
                 <li class="nav-item">
@@ -66,4 +66,6 @@ $url_list = [
         </ul>
     </nav>
     <main class="container">
+        </br>
+        </br>
         </br>

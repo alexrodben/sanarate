@@ -1,27 +1,24 @@
-<!-- REQUIERO LA CONEXION A LA BASE DE DATOS -->
+<?php include "./../../template/header.php"; ?>
+<?php include "./../../etc/conexion.php"; ?>
 <?php
-
-//CONEXION
-include "../../bd.php";
-
 //para insertar informacion
-
 if ($_POST) {
+    print_r($_POST);
 
-	print_r($_POST);
+    //SE TOMAN LOS DATOS DEL METODO POST
+    $nombre_puesto = (isset($_POST["nombre_puesto"]) ? $_POST["nombre_puesto"] : "");
+    $estado_puesto = (isset($_POST["estado_puesto"]) ? $_POST["estado_puesto"] : "");
 
-	//SE TOMAN LOS DATOS DEL METODO POST
-	$nombre_puesto = (isset($_POST["nombrePuesto"]) ? $_POST["nombrePuesto"] : "");
+    //SENTECIA SQL
+    $sentencia = $conexion->prepare("INSERT INTO tbl_puestos_empleados (id_puesto_empleado, nombre_puesto, estado_puesto) 
+    VALUES (null, :nombre_puesto, :estado_puesto)");
+    print_r($sentencia);
 
-	//SENTECIA SQL
-	$sentencia = $conexion->prepare("INSERT INTO tbl_puestos(id_puestos,nombre_puesto)
-                                 VALUES (null, :nombrePuesto)");
-	print_r($sentencia);
-
-	//asignando los valores del metodo post, del formulario
-	$sentencia->bindParam(":nombrePuesto", $nombre_puesto);
-	$sentencia->execute();
-	header("Location: index.php");
+    //asignando los valores del metodo post, del formulario
+    $sentencia->bindParam(":nombre_puesto", $nombre_puesto);
+    $sentencia->bindParam(":estado_puesto", $estado_puesto);
+    $sentencia->execute();
+    header("Location: index.php");
 
 }
 
@@ -29,7 +26,6 @@ if ($_POST) {
 //print_r($lista_table_puesto);
 
 ?>
-<?php include "../../templates/header.php";?>
 
 </br>
 <div class="card">
@@ -39,10 +35,20 @@ if ($_POST) {
     <div class="card-body">
         <form action="" method="post" enctype="multipart/form-data">
             <div class="mb-3">
-              <label for="nombrePuesto" class="form-label">Nombre del puesto:</label>
-              <input type="text"
-                class="form-control" name="nombrePuesto" id="nombrePuesto" aria-describedby="helpId" placeholder="Nombre del puesto">
+                <label for="nombre_puesto" class="form-label">Nombre del puesto:</label>
+                <input type="text" class="form-control" name="nombre_puesto" id="nombre_puesto" aria-describedby="helpId"
+                    placeholder="Nombre del puesto">
             </div>
+            <div class="mb-3">
+                <label for="estado_puesto" class="form-label">Puesto:</label>
+                <select class="form-select" value="<?= $estado_puesto; ?>" name="estado_puesto" id="estado_puesto"
+                    required>
+                    <option value="" disabled>Seleccione una opción</option>
+                    <option value="1">Activo</option>
+                    <option value="0">Inactivo</option>
+                </select>
+            </div>
+
 
             <button type="submit" class="btn btn-success">Agregar</button>
             <a name="" id="" class="btn btn-secondary" href="index.php" role="button">Cancelar</a>
@@ -54,7 +60,4 @@ if ($_POST) {
     </div>
 </div>
 
-
-
-
-<?php include "../../templates/footer.php";?>
+<?php include "./../../template/footer.php"; ?>

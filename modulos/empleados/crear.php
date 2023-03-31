@@ -240,6 +240,7 @@ try {
         <div class="col-md-6 mb-3">
           <label for="id_parentesco" class="form-label">Parentesco:</label>
           <select class="form-select form-select-sm" name="id_parentesco" id="id_parentesco" required>
+            <option value="" disabled>Seleccione una opción</option>
             <!-- Ciclo for each para la tabla puestos -->
             <?php foreach ($lista_table_parentesco as $registro) { ?>
               <option value="<?= $registro['id_parentesco'] ?>"><?= $registro['nombre_parentesco'] ?>
@@ -253,6 +254,7 @@ try {
         <div class="col-md-6 mb-3">
           <label for="id_tipo_sangre" class="form-label">Tipo de sangre:</label>
           <select class="form-select form-select-sm" name="id_tipo_sangre" id="id_tipo_sangre" required>
+            <option value="" disabled>Seleccione una opción</option>
             <!-- Ciclo for each para la tabla puestos -->
             <?php foreach ($lista_table_sangre as $registro) { ?>
               <option value="<?= $registro['id_tipo_sangre'] ?>"><?= $registro['tipo_sangre'] ?>
@@ -263,6 +265,7 @@ try {
         <div class="col-md-6 mb-3">
           <label for="id_estado_empleado" class="form-label">Estado:</label>
           <select class="form-select form-select-sm" name="id_estado_empleado" id="id_estado_empleado" required>
+            <option value="" disabled>Seleccione una opción</option>
             <!-- Ciclo for each para la tabla puestos -->
             <?php foreach ($lista_table_estado as $registro) { ?>
               <option value="<?= $registro['id_estado_empleado'] ?>"><?= $registro['nombre_estado'] ?>
@@ -276,6 +279,7 @@ try {
         <div class="col-md-6 mb-3">
           <label for="id_puesto_empleado" class="form-label">Puesto:</label>
           <select class="form-select form-select-sm" name="id_puesto_empleado" id="id_puesto_empleado" required>
+            <option value="" disabled>Seleccione una opción</option>
             <!-- Ciclo for each para la tabla puestos -->
             <?php foreach ($lista_table_puesto as $registro) { ?>
               <option value="<?= $registro['id_puesto_empleado'] ?>"><?= $registro['nombre_puesto'] ?>

@@ -1,5 +1,6 @@
 <!-- REQUIERO LA CONEXION A LA BASE DE DATOS -->
 <?php include "./../../template/header.php"; ?>
+<?php include "./../../etc/conexion.php"; ?>
 <?php
 //validamos, y enviamos parametros por el metodo get, para borrar
 if (isset($_GET['txtID'])) {
@@ -8,7 +9,7 @@ if (isset($_GET['txtID'])) {
     $txtID = (isset($_GET['txtID']) ? $_GET['txtID'] : "");
 
     //$id=$_GET['txtID'];
-    $sentencia = $conexion->prepare("DELETE FROM `tbl_puestos` WHERE `id_puestos` = :id");
+    $sentencia = $conexion->prepare("DELETE FROM `tbl_puestos_empleados` WHERE `id_puesto_empleado` = :id");
     $sentencia->bindParam(':id', $txtID);
     $sentencia->execute();
     header("Location: index.php");
@@ -18,18 +19,15 @@ if (isset($_GET['txtID'])) {
 $lista_table_puesto = [];
 try {
     if (isset($conexion)) {
-
         //CONSULTA SQL A LA TABLA PUESTOS
-        $sentencia = $conexion->prepare("SELECT * FROM `tbl_puestos`");
-
+        $sentencia = $conexion->prepare("SELECT * FROM `tbl_puestos_empleados`");
         //EJECUTO EL QUERY
         $sentencia->execute();
-
         //CARGO EN UNA VARIABLE LISTA LOS DATOS
         $lista_table_puesto = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+        function_alert_info($lista_table_puesto);
     }
     //imprimo la lista
-//print_r($lista_table_puesto);
 } catch (\Throwable $th) {
     echo $th->getMessage();
 }
@@ -42,7 +40,7 @@ try {
 
 <div class="card">
     <div class="card-header">
-        <a name="" id="" class="btn btn-primary" href="crear.php" role="button">Agregar registro</a>
+        <a name="" id="" class="btn btn-success" href="crear.php" role="button">Agregar registro</a>
     </div>
     <div class="card-body">
         <div class="table-responsive-sm">
@@ -51,6 +49,7 @@ try {
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Nombre del Puesto</th>
+                        <th scope="col">Estado</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
@@ -59,16 +58,19 @@ try {
                     <?php foreach ($lista_table_puesto as $registro) { ?>
                         <tr class="">
                             <td scope="row">
-                                <?php echo $registro['id_puestos'] ?>
+                                <?= $registro['id_puesto_empleado'] ?>
                             </td>
                             <td>
-                                <?php echo $registro['nombre_puesto'] ?>
+                                <?= $registro['nombre_puesto'] ?>
                             </td>
                             <td>
-                                <a class="btn btn-warning" href="editar.php?txtID=<?php echo $registro['id_puestos']; ?>"
+                                <?= $registro['estado_puesto'] == 1 ? "Activo" : "Inactivo"; ?>
+                            </td>
+                            <td>
+                                <a class="btn btn-sm btn-warning" href="editar.php?txtID=<?= $registro['id_puesto_empleado']; ?>"
                                     role="button">Editar</a>
 
-                                <a class="btn btn-danger" href="index.php?txtID=<?php echo $registro['id_puestos']; ?>"
+                                <a class="btn btn-sm btn-danger" href="index.php?txtID=<?= $registro['id_puesto_empleado']; ?>"
                                     onclick="return confirm('¿Estás seguro de que deseas eliminar este puesto?')"
                                     role="button">Eliminar</a>
                             </td>
