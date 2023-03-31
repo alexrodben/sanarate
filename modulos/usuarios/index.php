@@ -1,5 +1,6 @@
 <!-- REQUIERO LA CONEXION A LA BASE DE DATOS -->
 <?php include "./../../template/header.php"; ?>
+<?php include "./../../etc/conexion.php"; ?>
 <?php
 
 //validamos, y enviamos parametros por el metodo get, para borrar
@@ -39,7 +40,7 @@ try {
 
 <div class="card">
     <div class="card-header">
-        <a name="" id="" class="btn btn-primary" href="crear.php" role="button">Agregar usuario</a>
+        <a name="" id="" class="btn btn-success" href="crear.php" role="button">Agregar usuario</a>
     </div>
     <div class="card-body">
         <div class="table-responsive-sm">
@@ -49,6 +50,7 @@ try {
                         <th scope="col">ID</th>
                         <th scope="col">Nombre del usuario</th>
                         <th scope="col">Contraseña</th>
+                        <th scope="col">Nombre</th>
                         <th scope="col">Correo</th>
                         <th scope="col">Acciones</th>
                     </tr>
@@ -61,17 +63,20 @@ try {
                                 <?php echo $registro['id_usuario'] ?>
                             </td>
                             <td>
-                                <?php echo $registro['usuario'] ?>
+                                <?php echo $registro['username'] ?>
                             </td>
                             <td>
                                 <?php echo $registro['password'] ?>
+                            </td>
+                            <td>
+                                <?php echo $registro['fullname'] ?>
                             </td>
                             <td>
                                 <?php echo $registro['correo'] ?>
                             </td>
                             <td>
 
-                                <a name="" id="" class="btn btn-info"
+                                <a name="" id="" class="btn btn-warning"
                                     href="editar.php?txtID=<?php echo $registro['id_usuario'] ?>" role="button">Editar</a>
 
                                 <a name="" id="" class="btn btn-danger"

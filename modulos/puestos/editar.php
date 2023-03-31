@@ -58,7 +58,7 @@ if ($_POST) {
 
             <div class="mb-3">
                 <label for="txtID" class="form-label">ID:</label>
-                <input type="text" value="<?= $txtID; ?>" class="form-control" readonly name="txtID" id="txtID"
+                <input type="text" value="<?= $txtID; ?>" class="form-control" disabled name="txtID" id="txtID"
                     aria-describedby="helpId" placeholder="ID">
             </div>
 

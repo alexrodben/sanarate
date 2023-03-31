@@ -89,14 +89,13 @@ CREATE TABLE `tbl_estados_usuarios`  (
   `timestamp_create` datetime NOT NULL DEFAULT current_timestamp,
   `timestamp_update` datetime NOT NULL DEFAULT current_timestamp,
   PRIMARY KEY (`id_estado_usuario`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tbl_estados_usuarios
 -- ----------------------------
-INSERT INTO `tbl_estados_usuarios` VALUES (1, 'Root', '2023-03-30 14:02:56', '2023-03-30 14:02:56');
-INSERT INTO `tbl_estados_usuarios` VALUES (2, 'Activo', '2023-03-30 14:02:56', '2023-03-30 14:02:56');
-INSERT INTO `tbl_estados_usuarios` VALUES (3, 'Inactivo', '2023-03-30 14:06:20', '2023-03-30 14:06:20');
+INSERT INTO `tbl_estados_usuarios` VALUES (1, 'Activo', '2023-03-30 14:02:56', '2023-03-30 14:02:56');
+INSERT INTO `tbl_estados_usuarios` VALUES (2, 'Inactivo', '2023-03-30 14:06:20', '2023-03-30 14:06:20');
 
 -- ----------------------------
 -- Table structure for tbl_parentescos
@@ -212,6 +211,7 @@ CREATE TABLE `tbl_usuarios`  (
   `username` varchar(15) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `password` varchar(25) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `fullname` varchar(25) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `correo` varchar(25) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `id_rol_usuario` int NOT NULL,
   `id_estado_usuario` int NOT NULL,
   `timestamp_create` datetime NOT NULL DEFAULT current_timestamp,
@@ -226,6 +226,6 @@ CREATE TABLE `tbl_usuarios`  (
 -- ----------------------------
 -- Records of tbl_usuarios
 -- ----------------------------
-INSERT INTO `tbl_usuarios` VALUES (1, 'admin', '1234', 'Super User', 1, 1, '2023-03-30 14:28:16', '2023-03-30 14:28:16');
+INSERT INTO `tbl_usuarios` VALUES (1, 'admin', '1234', 'Super User', 'a@b.c', 1, 1, '2023-03-30 14:28:16', '2023-03-30 14:28:16');
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -19,8 +19,6 @@ if (isset($_GET['txtID'])) {
         function_alert_error($mesage_error, $th->getMessage());
     }
 
-
-
     $primer_nombre = isset($registro['primer_nombre']) ? $registro['primer_nombre'] : $message;
     $segundo_nombre = isset($registro['segundo_nombre']) ? $registro['segundo_nombre'] : $message;
     $tercer_nombre = isset($registro['tercer_nombre']) ? $registro['tercer_nombre'] : $message;
