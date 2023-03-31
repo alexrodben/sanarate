@@ -31,7 +31,7 @@ if ($_POST) {
     print_r($_POST);
 
     //SE TOMAN LOS DATOS DEL METODO POST
-    $txtID = (isset($_POST['txtID']) ? $_POST['txtID'] : "");
+    $txtID = (isset($_GET['txtID']) ? $_GET['txtID'] : "");
     $nombre_puesto = (isset($_POST["nombre_puesto"]) ? $_POST["nombre_puesto"] : "");
     $estado_puesto = (isset($_POST["estado_puesto"]) ? $_POST["estado_puesto"] : "");
 
