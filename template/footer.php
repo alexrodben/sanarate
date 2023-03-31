@@ -1,6 +1,6 @@
 </main>
-<br/>
-<br/>
+<br />
+<br />
 <!-- place footer here -->
 <div class="b-example-divider"></div>
 <div class="container">
@@ -24,3 +24,6 @@
 </body>
 
 </html>
+<?php
+ob_end_flush();
+?>

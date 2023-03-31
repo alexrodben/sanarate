@@ -1,28 +1,28 @@
 <?php
+ob_start();
 $url_host = "http://$_SERVER[HTTP_HOST]";
-$url_folder = "sanarate/";
-$url_base = $url_host . "/" . $url_folder;
-$url_active = basename("http://$_SERVER[REQUEST_URI]");
+$REQUEST_URI = $_SERVER['REQUEST_URI'];
+$baseName = basename($REQUEST_URI);
+$str_replace = str_replace($baseName, "", $REQUEST_URI);
 
 $url_list = [
     array(
-        "id" => 1,
-        "active" => "empleados",
+        "url" => "/sanarate/modulos/home/",
+        "display" => "Inicio"
+    ),
+    array(
+        "url" => "/sanarate/modulos/empleados/",
         "display" => "Empleados"
     ),
     array(
-        "id" => 1,
-        "active" => "puestos",
+        "url" => "/sanarate/modulos/puestos/",
         "display" => "Puesto de empleados"
     ),
     array(
-        "id" => 1,
-        "active" => "usuarios",
+        "url" => "/sanarate/modulos/usuarios/",
         "display" => "Usuarios"
     ),
 ]
-
-
     ?>
 <!doctype html>
 
@@ -39,36 +39,29 @@ $url_list = [
         integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
 
     <!-- Estilos css para hacer responsiva las paginas -->
-    <link rel="stylesheet" href="<?php echo $url_base; ?>css/theme.css">
-    <link rel="stylesheet" href="<?php echo $url_base; ?>css/footer.css">
+    <link rel="stylesheet" href="<?php echo $url_host; ?>/sanarate/css/theme.css">
+    <link rel="stylesheet" href="<?php echo $url_host; ?>/sanarate/css/footer.css">
 
 </head>
 
 <body>
-    <?php
-    //CONEXION 
-    include_once("./../../conexion.php");
-    ?>
     <header>
         <!-- place navbar here -->
     </header>
     <nav class="navbar navbar-expand bg-primary" data-bs-theme="dark">
         <ul class="nav navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link active" href="<?php echo $url_base; ?>" aria-current="page">Sistema <span
-                        class="visually-hidden">(current)</span></a>
-            </li>
             <?php foreach ($url_list as $registro) { ?>
+                <?php $url_active = $str_replace == $registro['url'] ? "active" : ""; ?>
                 <li class="nav-item">
-                    <a class="nav-link <?= $url_active == $registro['active'] ? "active" : ""; ?> "
-                        href="<?= $url_base; ?>modulos/<?= $registro['active']; ?>/">
+                    <a class="nav-link <?= $url_active; ?> " href="<?= $url_host; ?><?= $registro['url']; ?>index.php">
                         <?= $registro['display']; ?>
                     </a>
                 </li>
-
             <?php } ?>
             <li class="nav-item">
-                <a class="nav-link" href="<?php echo $url_base; ?>cerrar.php">Cerrar sesión</a>
+                <a class="nav-link active" href="<?= $url_host; ?>/sanarate/security/logout.php">
+                    Cerrar sesion
+                </a>
             </li>
         </ul>
     </nav>

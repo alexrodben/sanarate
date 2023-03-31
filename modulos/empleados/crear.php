@@ -1,5 +1,6 @@
+<?php include "./../../template/header.php"; ?>
+<?php include "./../../etc/conexion.php"; ?>
 <?php
-
 //para insertar informacion
 if ($_POST) {
   try {
@@ -151,14 +152,13 @@ try {
 }
 
 ?>
-<?php include "./../../template/header.php"; ?>
 <br />
 <div class="card">
   <div class="card-header">
     Datos del Empleado
   </div>
   <div class="card-body">
-    <form action="crear.php" method="post">
+    <form action="crear.php" method="post" enctype="multipart/form-data">
       <div class="row">
         <div class="col-md-6 mb-3">
           <label for="primer_nombre" class="form-label">Primer nombre</label>
@@ -261,8 +261,8 @@ try {
           </select>
         </div>
         <div class="col-md-6 mb-3">
-          <label for="id_puesto_empleado" class="form-label">Estado:</label>
-          <select class="form-select form-select-sm" name="id_puesto_empleado" id="id_puesto_empleado" required>
+          <label for="id_estado_empleado" class="form-label">Estado:</label>
+          <select class="form-select form-select-sm" name="id_estado_empleado" id="id_estado_empleado" required>
             <!-- Ciclo for each para la tabla puestos -->
             <?php foreach ($lista_table_estado as $registro) { ?>
               <option value="<?= $registro['id_estado_empleado'] ?>"><?= $registro['nombre_estado'] ?>
@@ -274,8 +274,8 @@ try {
 
       <div class="row">
         <div class="col-md-6 mb-3">
-          <label for="id_estado_empleado" class="form-label">Puesto:</label>
-          <select class="form-select form-select-sm" name="id_estado_empleado" id="id_estado_empleado" required>
+          <label for="id_puesto_empleado" class="form-label">Puesto:</label>
+          <select class="form-select form-select-sm" name="id_puesto_empleado" id="id_puesto_empleado" required>
             <!-- Ciclo for each para la tabla puestos -->
             <?php foreach ($lista_table_puesto as $registro) { ?>
               <option value="<?= $registro['id_puesto_empleado'] ?>"><?= $registro['nombre_puesto'] ?>

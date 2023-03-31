@@ -1,4 +1,6 @@
 <?php include "./../../template/header.php"; ?>
+<?php include "./../../etc/conexion.php"; ?>
+
 <?php
 //validamos, y enviamos parametros por el metodo get, para borrar
 if (isset($_GET['txtID'])) {
